@@ -3,6 +3,7 @@ package com.buaa.test.dao;
 
 import com.buaa.test.bean.Player;
 import com.buaa.test.common.TxQueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,10 @@ public class PlayerDao {
     private TxQueryRunner qr;
 
     private final String findAllSql = "SELECT * FROM players";
+    private final String addPlayerSql = "INSERT players(name, gameName, age, sex, position) VALUES (?, ?, ?, ?, ?)";
+    private final String deletePlayerSql = "DELETE FROM players WHERE playerId = ?";
+    private final String findPlayerByIdSql = "SELECT * FROM players WHERE playerId =?";
+    private final String updatePlayerIdSql = "UPDATE players SET name=?, gameName=?, age=?, sex=?, position=? WHERE playerId=?";
 
     public List<Player> findAll() {
         List<Player> res = null;
@@ -27,5 +32,40 @@ public class PlayerDao {
             e.printStackTrace();
         }
         return res;
+    }
+
+    public void addPlayer(Player player) {
+        try {
+            qr.update(addPlayerSql, player.getName(), player.getGameName(), player.getAge(), player.getSex(), player.getPosition());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deletePlayerById(Integer playerId) {
+        try {
+            qr.update(deletePlayerSql, playerId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Player findPlayerById(Integer playerId) {
+        Player player = null;
+        try {
+            player = qr.query(findPlayerByIdSql, new BeanHandler<>(Player.class), playerId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return player;
+    }
+
+    public void modifyPlayer(Player player) {
+        try {
+            qr.update(updatePlayerIdSql, player.getName(), player.getGameName(),
+                    player.getAge(), player.getSex(), player.getPosition(), player.getPlayerId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

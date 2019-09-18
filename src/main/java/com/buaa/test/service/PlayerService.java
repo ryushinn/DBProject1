@@ -16,4 +16,20 @@ public class PlayerService {
     public List<Player> findAllPlayers() {
         return playerDao.findAll();
     }
+
+    public void addPlayer(Player player) {
+        playerDao.addPlayer(player);
+    }
+
+    public void deletePlayer(Integer playerId) {
+        playerDao.deletePlayerById(playerId);
+    }
+
+    public Player findPlayer(Integer playerId) {
+        return playerDao.findPlayerById(playerId);
+    }
+
+    public void modifyPlayer(Player player) {
+        playerDao.modifyPlayer(player);
+    }
 }
