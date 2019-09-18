@@ -2,11 +2,12 @@ package com.buaa.test.dao;
 
 
 import com.buaa.test.bean.Player;
+import com.buaa.test.common.TxQueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,15 +15,17 @@ import java.util.List;
 public class PlayerDao {
 
     @Autowired
-    private DataSource dataSource;
+    private TxQueryRunner qr;
+
+    private final String findAllSql = "SELECT * FROM players";
 
     public List<Player> findAll() {
-        System.out.println(dataSource);
-        try (Connection con = dataSource.getConnection()) {
-            System.out.println(con);
+        List<Player> res = null;
+        try {
+            res = qr.query(findAllSql, new BeanListHandler<Player>(Player.class));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return res;
     }
 }
