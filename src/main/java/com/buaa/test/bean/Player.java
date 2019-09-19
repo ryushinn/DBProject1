@@ -7,6 +7,7 @@ public class Player {
     private int age;
     private String sex;
     private int position;
+    private int belong;
 
     public int getPlayerId() {
         return playerId;
@@ -56,6 +57,15 @@ public class Player {
         this.position = position;
     }
 
+
+    public int getBelong() {
+        return belong;
+    }
+
+    public void setBelong(int belong) {
+        this.belong = belong;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
@@ -65,6 +75,7 @@ public class Player {
                 ", age=" + age +
                 ", sex='" + sex + '\'' +
                 ", position=" + position +
+                ", belong=" + belong +
                 '}';
     }
 }

@@ -19,11 +19,11 @@ public class PlayerDao {
     private TxQueryRunner qr;
 
     private final String findAllSql = "SELECT * FROM players";
-    private final String addPlayerSql = "INSERT players(name, gameName, age, sex, position) VALUES (?, ?, ?, ?, ?)";
+    private final String addPlayerSql = "INSERT players(name, gameName, age, sex, position, belong) VALUES (?, ?, ?, ?, ?, ?)";
     private final String deletePlayerSql = "DELETE FROM players WHERE playerId = ?";
     private final String findPlayerByIdSql = "SELECT * FROM players WHERE playerId =?";
-    private final String updatePlayerIdSql = "UPDATE players SET name=?, gameName=?, age=?, sex=?, position=? WHERE playerId=?";
-    private final String retrievePlayerSql = "SELECT * FROM players WHERE name like ? AND gameName like ? AND position = ?";
+    private final String updatePlayerIdSql = "UPDATE players SET name=?, gameName=?, age=?, sex=?, position=?, belong=? WHERE playerId=?";
+    private final String retrievePlayerSql = "SELECT * FROM players WHERE name like ? AND gameName like ? AND position like ? AND belong like ?";
 
     public List<Player> findAll() {
         List<Player> res = null;
@@ -37,7 +37,8 @@ public class PlayerDao {
 
     public void addPlayer(Player player) {
         try {
-            qr.update(addPlayerSql, player.getName(), player.getGameName(), player.getAge(), player.getSex(), player.getPosition());
+            qr.update(addPlayerSql, player.getName(), player.getGameName(),
+                    player.getAge(), player.getSex(), player.getPosition(), player.getBelong());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,7 +65,9 @@ public class PlayerDao {
     public void modifyPlayer(Player player) {
         try {
             qr.update(updatePlayerIdSql, player.getName(), player.getGameName(),
-                    player.getAge(), player.getSex(), player.getPosition(), player.getPlayerId());
+                    player.getAge(), player.getSex(),
+                    player.getPosition(), player.getBelong(),
+                    player.getPlayerId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -75,7 +78,9 @@ public class PlayerDao {
         try {
             res = qr.query(retrievePlayerSql, new BeanListHandler<>(Player.class),
                     '%' + condition.getName() + '%',
-                    '%' + condition.getGameName() + '%', condition.getPosition());
+                    '%' + condition.getGameName() + '%',
+                    condition.getPosition()==-2?"%":condition.getPosition(),
+                    condition.getBelong()==-2?"%":condition.getBelong());
         } catch (SQLException e) {
             e.printStackTrace();
         }

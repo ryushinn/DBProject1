@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0053)https://getbootstrap.com/docs/4.3/examples/dashboard/ -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -114,6 +113,7 @@
                         <th>age</th>
                         <th>sex</th>
                         <th>Pos</th>
+                        <th>Team</th>
                         <th>Operation</th>
                     </tr>
                     </thead>
@@ -124,6 +124,7 @@
                         <td th:text="${player.age}"></td>
                         <td th:text="${player.sex}"></td>
                         <td th:text="${player.position}"></td>
+                        <td th:text="${teams[__${playerStat.index}__].tname}"></td>
                         <td>
                             <form th:action="@{/player/__${player.playerId}__}" method="post">
                                 <a th:href="@{/player/__${player.playerId}__}" target="_blank" class="btn btn-sm btn-primary">modify</a>
