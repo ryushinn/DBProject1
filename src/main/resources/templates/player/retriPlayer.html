@@ -79,7 +79,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Member List</h1>
+                <h1 class="h2">Retrieve Condition</h1>
                 <!--<div class="btn-toolbar mb-2 mb-md-0">-->
                 <!--<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">-->
                 <!--<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"-->
@@ -94,41 +94,36 @@
                 <!--</button>-->
                 <!--</div>-->
             </div>
-
-            <h2>
-                <a href="" th:href="@{/player}" target="_blank" class="btn btn-bg btn-outline-dark">
-                    click here to add a player
-                </a>
-            </h2>
-            <div class="table-responsive">
-                <table class="table table-striped table-sm">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>gameID</th>
-                        <th>age</th>
-                        <th>sex</th>
-                        <th>Pos</th>
-                        <th>Operation</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="player:${players}">
-                        <td th:text="${player.name}"></td>
-                        <td th:text="${player.gameName}"></td>
-                        <td th:text="${player.age}"></td>
-                        <td th:text="${player.sex}"></td>
-                        <td th:text="${player.position}"></td>
-                        <td>
-                            <a th:href="@{/player/__${player.playerId}__}" class="btn btn-sm btn-primary">modify</a>
-                            <form th:action="@{/player/__${player.playerId}__}" method="post">
-                                <input type="hidden" name="_method" value="delete"/>
-                                <button type="submit" class="btn btn-sm btn-danger">delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="col-md-6 order-md-1">
+                <div th:class="${success}?'badge-success text-center col-md-6':
+        'badge-dark text-center col-md-6'" th:text="${msg}" th:if="${msg}"></div>
+                <form th:action="@{/player/retrieve}" th:method="get">
+                    <h4 class="mb-3">Profile</h4>
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label for="inputRealName">RealName</label>
+                            <input name="name" type="text" class="form-control" id="inputRealName"/>
+                        </div>
+                        <div class="form-group col-md-6 offset-md-1">
+                            <label for="inputGameId">GameId</label>
+                            <input name="gameName" type="text" class="form-control" id="inputGameId"/>
+                        </div>
+                    </div>
+                    <h4 class="mb-3">GameInfo</h4>
+                    <div class="form-group col-md-6 ">
+                        <label for="inputPos">Position you play</label>
+                        <!-- todo: 改成button bar的形式-->
+                        <select class="form-control" id="inputPos" , name="position">
+                            <option value="0">please select</option>
+                            <option value="1">Carry</option>
+                            <option value="2">Mid</option>
+                            <option value="3">Offlane</option>
+                            <option value="4">Support</option>
+                            <option value="5">Hard Support</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">submit</button>
+                </form>
             </div>
         </main>
     </div>

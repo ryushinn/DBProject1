@@ -23,6 +23,7 @@ public class PlayerDao {
     private final String deletePlayerSql = "DELETE FROM players WHERE playerId = ?";
     private final String findPlayerByIdSql = "SELECT * FROM players WHERE playerId =?";
     private final String updatePlayerIdSql = "UPDATE players SET name=?, gameName=?, age=?, sex=?, position=? WHERE playerId=?";
+    private final String retrievePlayerSql = "SELECT * FROM players WHERE name like ? AND gameName like ? AND position = ?";
 
     public List<Player> findAll() {
         List<Player> res = null;
@@ -67,5 +68,18 @@ public class PlayerDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Player> retrievePlayer(Player condition) {
+        List<Player> res = null;
+        try {
+            res = qr.query(retrievePlayerSql, new BeanListHandler<>(Player.class),
+                    '%' + condition.getName() + '%',
+                    '%' + condition.getGameName() + '%', condition.getPosition());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(res);
+        return res;
     }
 }

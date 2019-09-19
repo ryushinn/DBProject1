@@ -32,4 +32,8 @@ public class PlayerService {
     public void modifyPlayer(Player player) {
         playerDao.modifyPlayer(player);
     }
+
+    public List<Player> retrievePlayers(Player condition) {
+        return playerDao.retrievePlayer(condition);
+    }
 }
