@@ -35,7 +35,7 @@
 <body class="bg-light ">
 <div class="container">
     <div class="py-5 text-center ">
-        <h2 th:text="!${mTeam}?'Player Application Form':'Player Modification Form'"></h2>
+        <h2 th:text="!${mTeam}?'Team Application Form':'Team Modification Form'"></h2>
         <p class="lead ligh">Please fill in your information, then click SUBMIT to hand in.</p>
         <div th:class="${success}?'badge-success text-center col-md-6 offset-md-3':
         'badge-dark text-center col-md-6 offset-md-3'" th:text="${msg}" th:if="${msg}"></div>
