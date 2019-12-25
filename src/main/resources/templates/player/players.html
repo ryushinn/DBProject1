@@ -124,7 +124,7 @@
                         <td th:text="${player.age}"></td>
                         <td th:text="${player.sex}"></td>
                         <td th:text="${player.position}"></td>
-                        <td th:text="${teams[__${playerStat.index}__].tname}"></td>
+                        <td th:text="${player.team.tname}"></td>
                         <td>
                             <form th:action="@{/player/__${player.playerId}__}" method="post">
                                 <a th:href="@{/player/__${player.playerId}__}" target="_blank" class="btn btn-sm btn-primary">modify</a>

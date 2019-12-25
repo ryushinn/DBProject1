@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.buaa.sl.mapper.TournamentMapper">
+  <resultMap id="BaseResultMap" type="com.buaa.sl.bean.Tournament">
+    <id column="tournament_id" jdbcType="INTEGER" property="tournamentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="date" jdbcType="TIMESTAMP" property="date" />
+    <result column="in_" jdbcType="INTEGER" property="in" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="num_of_teams" jdbcType="INTEGER" property="numOfTeams" />
+    <result column="prize" jdbcType="DOUBLE" property="prize" />
+    <result column="champion" jdbcType="INTEGER" property="champion" />
+    <result column="runnerup" jdbcType="INTEGER" property="runnerUp" />
+    <result column="sponsored_by" jdbcType="INTEGER" property="sponsoredBy" />
+    <association column="champion" property="championTeam" select="getTeam1" />
+    <association column="runnerup" property="runnerupTeam" select="getTeam2" />
+    <association column="sponsored_by" property="sponsor" select="getSponsor" />
+    <association column="in_" property="region" select="getRegion" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    tournament_id, name, date, in_, location, num_of_teams, prize, champion, runnerup, 
+    sponsored_by
+  </sql>
+  <select id="selectByExample" parameterType="com.buaa.sl.bean.TournamentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tournaments
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tournaments
+    where tournament_id = #{tournamentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tournaments
+    where tournament_id = #{tournamentId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.buaa.sl.bean.TournamentExample">
+    delete from tournaments
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.buaa.sl.bean.Tournament">
+    insert into tournaments (tournament_id, name, date, 
+      in_, location, num_of_teams, 
+      prize, champion, runnerup, 
+      sponsored_by)
+    values (#{tournamentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{date,jdbcType=TIMESTAMP}, 
+      #{in,jdbcType=INTEGER}, #{location,jdbcType=VARCHAR}, #{numOfTeams,jdbcType=INTEGER}, 
+      #{prize,jdbcType=DOUBLE}, #{champion,jdbcType=INTEGER}, #{runnerUp,jdbcType=INTEGER}, 
+      #{sponsoredBy,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.buaa.sl.bean.Tournament">
+    insert into tournaments
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tournamentId != null">
+        tournament_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="'in' != null">
+        in_,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="numOfTeams != null">
+        num_of_teams,
+      </if>
+      <if test="prize != null">
+        prize,
+      </if>
+      <if test="champion != null">
+        champion,
+      </if>
+      <if test="runnerUp != null">
+        runnerup,
+      </if>
+      <if test="sponsoredBy != null">
+        sponsored_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tournamentId != null">
+        #{tournamentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="'in' != null">
+        #{in,jdbcType=INTEGER},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="numOfTeams != null">
+        #{numOfTeams,jdbcType=INTEGER},
+      </if>
+      <if test="prize != null">
+        #{prize,jdbcType=DOUBLE},
+      </if>
+      <if test="champion != null">
+        #{champion,jdbcType=INTEGER},
+      </if>
+      <if test="runnerUp != null">
+        #{runnerUp,jdbcType=INTEGER},
+      </if>
+      <if test="sponsoredBy != null">
+        #{sponsoredBy,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.buaa.sl.bean.TournamentExample" resultType="java.lang.Long">
+    select count(*) from tournaments
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tournaments
+    <set>
+      <if test="record.tournamentId != null">
+        tournament_id = #{record.tournamentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.date != null">
+        date = #{record.date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.in != null">
+        in_ = #{record.in,jdbcType=INTEGER},
+      </if>
+      <if test="record.location != null">
+        location = #{record.location,jdbcType=VARCHAR},
+      </if>
+      <if test="record.numOfTeams != null">
+        num_of_teams = #{record.numOfTeams,jdbcType=INTEGER},
+      </if>
+      <if test="record.prize != null">
+        prize = #{record.prize,jdbcType=DOUBLE},
+      </if>
+      <if test="record.champion != null">
+        champion = #{record.champion,jdbcType=INTEGER},
+      </if>
+      <if test="record.runnerUp != null">
+        runnerup = #{record.runnerUp,jdbcType=INTEGER},
+      </if>
+      <if test="record.sponsoredBy != null">
+        sponsored_by = #{record.sponsoredBy,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tournaments
+    set tournament_id = #{record.tournamentId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      date = #{record.date,jdbcType=TIMESTAMP},
+      in_ = #{record.in,jdbcType=INTEGER},
+      location = #{record.location,jdbcType=VARCHAR},
+      num_of_teams = #{record.numOfTeams,jdbcType=INTEGER},
+      prize = #{record.prize,jdbcType=DOUBLE},
+      champion = #{record.champion,jdbcType=INTEGER},
+      runnerup = #{record.runnerUp,jdbcType=INTEGER},
+      sponsored_by = #{record.sponsoredBy,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.buaa.sl.bean.Tournament">
+    update tournaments
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="'in' != null">
+        in_ = #{in,jdbcType=INTEGER},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="numOfTeams != null">
+        num_of_teams = #{numOfTeams,jdbcType=INTEGER},
+      </if>
+      <if test="prize != null">
+        prize = #{prize,jdbcType=DOUBLE},
+      </if>
+      <if test="champion != null">
+        champion = #{champion,jdbcType=INTEGER},
+      </if>
+      <if test="runnerUp != null">
+        runnerup = #{runnerUp,jdbcType=INTEGER},
+      </if>
+      <if test="sponsoredBy != null">
+        sponsored_by = #{sponsoredBy,jdbcType=INTEGER},
+      </if>
+    </set>
+    where tournament_id = #{tournamentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.buaa.sl.bean.Tournament">
+    update tournaments
+    set name = #{name,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP},
+      in_ = #{in,jdbcType=INTEGER},
+      location = #{location,jdbcType=VARCHAR},
+      num_of_teams = #{numOfTeams,jdbcType=INTEGER},
+      prize = #{prize,jdbcType=DOUBLE},
+      champion = #{champion,jdbcType=INTEGER},
+      runnerup = #{runnerUp,jdbcType=INTEGER},
+      sponsored_by = #{sponsoredBy,jdbcType=INTEGER}
+    where tournament_id = #{tournamentId,jdbcType=INTEGER}
+  </update>
+  <select id="getTeam1" resultMap="com.buaa.sl.mapper.TeamMapper.BaseResultMap">
+    select team_id,tname,in_,coach,sponsor from teams where team_id=#{champion}
+  </select>
+  <select id="getTeam2" resultMap="com.buaa.sl.mapper.TeamMapper.BaseResultMap">
+    select team_id,tname,in_,coach,sponsor from teams where team_id=#{runnerup}
+  </select>
+  <select id="getSponsor" resultMap="com.buaa.sl.mapper.SponsorMapper.BaseResultMap">
+    select sponsor_id,name from sponsors where sponsor_id=#{sponsoredBy}
+  </select>
+  <select id="getRegion" resultMap="com.buaa.sl.mapper.RegionMapper.BaseResultMap">
+    select region_id,rname from regions where region_id=#{in}
+  </select>
+</mapper>

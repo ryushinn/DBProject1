@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="generator" content="">
+    <title></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}" rel="stylesheet">
+
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="" th:href="@{/form.css}" rel="stylesheet">
+</head>
+<body class="bg-light ">
+<div class="container">
+    <div class="py-5 text-center ">
+        <h2 th:text="!${mCompetition}?'Competition Application Form':'Competition Modification Form'"></h2>
+        <p class="lead ligh">Please fill in your information, then click SUBMIT to hand in.</p>
+        <div th:class="${success}?'badge-success text-center col-md-6 offset-md-3':
+        'badge-dark text-center col-md-6 offset-md-3'" th:text="${msg}" th:if="${msg}"></div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-8 order-md-1 offset-md-2">
+            <form th:action="@{/competition}" th:method="post">
+                <input type="hidden" th:if="${mCompetition}" th:name="_method" th:value="put"/>
+                <input type="hidden" th:if="${mCompetition}" th:name="competitionId" th:value="${mCompetition.competitionId}"/>
+                <h4 class="mb-3">Profile</h4>
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <label for="inputRealName">RealName</label>
+                        <input type="text" class="form-control" id="inputRealName" placeholder="Your RealName" ,
+                               name="name" th:value="${mCompetition}?${mCompetition.name}"/>
+                    </div>
+                    <div class="form-group col-md-6 offset-md-1">
+                        <label for="inputGameId">GameId</label>
+                        <input type="text" class="form-control" id="inputGameId" placeholder="Your GameId"
+                               name="gameName" th:value="${mCompetition}?${mCompetition.gameName}"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-5 ">
+                        <label for="inputAge">Age</label>
+                        <select class="form-control" id="inputAge" name="age">
+                            <option value="-1">please select</option>
+                            <option th:each="i: ${#numbers.sequence(16,30)}" th:text="${i}" th:value="${i}"
+                                    th:selected="${mCompetition}?${i}==${mCompetition.age}"></option>
+                        </select>
+                    </div>
+                    <!--<span class="col-md-3"></span>-->
+                    <div id="inputSex" class="form-group col-md-6 offset-md-1">
+                        <label for="inputSex">Sex</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sex" id="inputSex1" value="male"
+                                   th:checked="${mCompetition}?${mCompetition.sex.equals('male')}:true">
+                            <label class="form-check-label" for="inputSex1">
+                                Male
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sex" id="inputSex2" value="female"
+                                   th:checked="${mCompetition}?${mCompetition.sex.equals('female')}">
+                            <label class="form-check-label" for="inputSex2">
+                                Female
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="mb-3">GameInfo</h4>
+                <div class="form-group col-md-6 ">
+                    <label for="inputPos">Position</label>
+                    <!-- todo: 改成button bar的形式-->
+                    <select class="form-control" id="inputPos", name="position">
+                        <option value="0">please select</option>
+                        <option value="1" th:selected="${mCompetition}?${mCompetition.position}==1">Carry</option>
+                        <option value="2" th:selected="${mCompetition}?${mCompetition.position}==2">Mid</option>
+                        <option value="3" th:selected="${mCompetition}?${mCompetition.position}==3">Offlane</option>
+                        <option value="4" th:selected="${mCompetition}?${mCompetition.position}==4">Support</option>
+                        <option value="5" th:selected="${mCompetition}?${mCompetition.position}==5">Hard Support</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6 ">
+                    <label for="inputTeam">Team</label>
+                    <select class="form-control" id="inputTeam", name="belong">
+                        <option value="-1">please select</option>
+                        <option th:each="team:${teams}"
+                                th:value="${team.teamId}"
+                                th:text="${team.tname}"
+                                th:selected="${mCompetition}?${mCompetition.belong}==${team.teamId}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!--<footer class="my-5 pt-5 text-muted text-center text-small">-->
+        <!--<p class="mb-1">© 2017-2019 Simple Liqui</p>-->
+        <!--<ul class="list-inline">-->
+            <!--<li class="list-inline-item"><a href="https://getbootstrap.com/docs/4.3/examples/checkout/#addCompetition.html">Privacy</a>-->
+            <!--</li>-->
+            <!--<li class="list-inline-item"><a href="https://getbootstrap.com/docs/4.3/examples/checkout/#addCompetition.html">Terms</a>-->
+            <!--</li>-->
+            <!--<li class="list-inline-item"><a href="https://getbootstrap.com/docs/4.3/examples/checkout/#addCompetition.html">Support</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</footer>-->
+</div>
+
+</body>
+</html>

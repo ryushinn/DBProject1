@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="generator" content="">
+    <title></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}" rel="stylesheet">
+
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="" th:href="@{/form.css}" rel="stylesheet">
+</head>
+<body class="bg-light ">
+<div class="container">
+    <div class="py-5 text-center ">
+        <h2 th:text="'Sponsor Application Form'"></h2>
+        <p class="lead ligh">Please fill in your information, then click SUBMIT to hand in.</p>
+        <div th:class="${success}?'badge-success text-center col-md-6 offset-md-3':
+        'badge-dark text-center col-md-6 offset-md-3'" th:text="${msg}" th:if="${msg}"></div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-8 order-md-1 offset-md-2">
+            <form th:action="@{/sponsor}" th:method="post">
+                <div class="form-row">
+                    <label for="inputRealName">Sponsor Name</label>
+                    <input type="text" class="form-control" id="inputRealName" placeholder="Sponsor Name" ,
+                           name="name"/>
+                </div>
+                <p></p>
+                <button type="submit" class="btn btn-primary">submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!--<footer class="my-5 pt-5 text-muted text-center text-small">-->
+    <!--<p class="mb-1">© 2017-2019 Simple Liqui</p>-->
+    <!--<ul class="list-inline">-->
+    <!--<li class="list-inline-item"><a href="https://getbootstrap.com/docs/4.3/examples/checkout/#addPlayer.html">Privacy</a>-->
+    <!--</li>-->
+    <!--<li class="list-inline-item"><a href="https://getbootstrap.com/docs/4.3/examples/checkout/#addPlayer.html">Terms</a>-->
+    <!--</li>-->
+    <!--<li class="list-inline-item"><a href="https://getbootstrap.com/docs/4.3/examples/checkout/#addPlayer.html">Support</a>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</footer>-->
+</div>
+
+</body>
+</html>

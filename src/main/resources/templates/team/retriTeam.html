@@ -106,10 +106,14 @@
                             <input type="text" class="form-control" id="inputTeamName" placeholder="Team Name" ,
                                    name="tname"/>
                         </div>
-                        <div class="form-group col-md-6 offset-md-1">
-                            <label for="inputRegion">Region</label>
-                            <input type="text" class="form-control" id="inputRegion" placeholder="Region"
-                                   name="region"/>
+                        <div class="form-group col-md-6 offset-1">
+                            <label for="inputTeam">Region</label>
+                            <select class="form-control" id="inputTeam", name="in">
+                                <option value="-1">please select</option>
+                                <option th:each="region:${regions}"
+                                        th:value="${region.regionId}"
+                                        th:text="${region.rname}"></option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-row">

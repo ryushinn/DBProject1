@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+  <context id="DB2Tables" targetRuntime="MyBatis3">
+    <!-- 生成一对一配置 -->
+    <plugin type="cc.bandaotixi.plugins.OneToOnePlugin" />
+    <!-- 生成一对多配置 -->
+    <plugin type="cc.bandaotixi.plugins.OneToManyPlugin" />
+
+    <!-- 生成注释配置 -->
+    <commentGenerator type="cc.bandaotixi.plugins.BDTCommentGenerator">
+      <property name="javaFileEncoding" value="GB2312"/>
+      <property name="suppressDate" value="true"/>
+      <property name="suppressAllComments" value="true" />
+    </commentGenerator>
+
+    <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+        connectionURL="jdbc:mysql://localhost:3306/projectdatabase?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;serverTimezone=GMT%2B8"
+        userId="root"
+        password="123456">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.buaa.sl.bean" targetProject=".\src\">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="com.buaa.sl.mapper" targetProject=".\src\">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.buaa.sl.mapper" targetProject=".\src\">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+
+    <table tableName="players" domainObjectName="Player" >
+      <oneToOne mappingTable="teams" column="belong" joinColumn="team_id"/>
+    </table>
+    <table tableName="teams" domainObjectName="Team" >
+      <oneToOne mappingTable="regions" column="in_" joinColumn="region_id"/>
+      <oneToMany mappingTable="players" column="team_id" joinColumn="belong"/>
+    </table>
+    <table tableName="_users" domainObjectName="User" >
+    </table>
+    <table tableName="regions" domainObjectName="Region" >
+      <oneToMany mappingTable="tournaments" column="region_id" joinColumn="in_"/>
+      <oneToMany mappingTable="teams" column="region_id " joinColumn="in_"/>
+    </table>
+    <table tableName="tournaments" domainObjectName="Tournament">
+      <oneToOne mappingTable="teams" column="champion" joinColumn="team_id"/>
+      <oneToOne mappingTable="teams" column="runner-up" joinColumn="team_id"/>
+      <oneToOne mappingTable="sponsors" column="sponsored_by" joinColumn="sponsor_id"/>
+      <oneToOne mappingTable="regions" column="in_" joinColumn="region_id"/>
+    </table>
+    <table tableName="sponsors" domainObjectName="Sponsor"> </table>
+    <table tableName="competitions" domainObjectName="Competition">
+      <oneToOne mappingTable="tournaments" column="from_" joinColumn="tournament_id"/>
+      <oneToOne mappingTable="teams" column="radiant" joinColumn="team_id"/>
+      <oneToOne mappingTable="teams" column="dire" joinColumn="team_id"/>
+    </table>
+  </context>
+</generatorConfiguration>

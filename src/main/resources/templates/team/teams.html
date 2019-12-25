@@ -119,7 +119,7 @@
                     <tbody>
                     <tr th:each="team:${teams}">
                         <td th:text="${team.tname}"></td>
-                        <td th:text="${team.region}"></td>
+                        <td th:text="${team.region.rname}"></td>
                         <td th:text="${team.coach}"></td>
                         <td th:text="${team.sponsor}"></td>
                         <td>

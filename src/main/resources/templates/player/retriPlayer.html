@@ -114,8 +114,7 @@
                         <label for="inputPos">Position you play</label>
                         <!-- todo: 改成button bar的形式-->
                         <select class="form-control" id="inputPos" , name="position">
-                            <option value="0">please select</option>
-                            <option value="-2">[Whatever]</option>
+                            <option value="-1">please select</option>
                             <option value="1">Carry</option>
                             <option value="2">Mid</option>
                             <option value="3">Offlane</option>
@@ -127,7 +126,6 @@
                         <label for="inputTeam">Team</label>
                         <select class="form-control" id="inputTeam", name="belong">
                             <option value="-1">please select</option>
-                            <option value="-2">[Whatever]</option>
                             <option th:each="team:${teams}"
                                     th:value="${team.teamId}"
                                     th:text="${team.tname}"></option>
